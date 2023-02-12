@@ -44,9 +44,9 @@ mkdir -p ${OUTDIR}
 #     make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE -j4 all dtbs
 # fi
 
-echo "Adding the Image in outdir"
-KERNEL=${OUTDIR}/linux-stable
-cp $KERNEL/arch/arm64/boot/Image ${OUTDIR}
+# echo "Adding the Image in outdir"
+# KERNEL=${OUTDIR}/linux-stable
+# cp $KERNEL/arch/arm64/boot/Image ${OUTDIR}
 
 echo "Creating the staging directory for the root filesystem"
 cd "$OUTDIR"
