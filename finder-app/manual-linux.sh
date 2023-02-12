@@ -24,25 +24,25 @@ fi
 
 mkdir -p ${OUTDIR}
 
-cd "$OUTDIR"
-if [ ! -d "${OUTDIR}/linux-stable" ]; then
-    #Clone only if the repository does not exist.
-	echo "CLONING GIT LINUX STABLE VERSION ${KERNEL_VERSION} IN ${OUTDIR}"
-	git clone ${KERNEL_REPO} --depth 1 --single-branch --branch ${KERNEL_VERSION}
-    cd linux-stable
-    git apply $FINDER_APP_DIR/../dtc-multiple-definition.patch
-    cd -
-fi
-if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
-    cd linux-stable
-    echo "Checking out version ${KERNEL_VERSION}"
-    git checkout ${KERNEL_VERSION}
+# cd "$OUTDIR"
+# if [ ! -d "${OUTDIR}/linux-stable" ]; then
+#     #Clone only if the repository does not exist.
+# 	echo "CLONING GIT LINUX STABLE VERSION ${KERNEL_VERSION} IN ${OUTDIR}"
+# 	git clone ${KERNEL_REPO} --depth 1 --single-branch --branch ${KERNEL_VERSION}
+#     cd linux-stable
+#     git apply $FINDER_APP_DIR/../dtc-multiple-definition.patch
+#     cd -
+# fi
+# if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
+#     cd linux-stable
+#     echo "Checking out version ${KERNEL_VERSION}"
+#     git checkout ${KERNEL_VERSION}
 
-    # TODO: Add your kernel build steps here
-    make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE mrproper
-    make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE defconfig
-    make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE -j4 all dtbs
-fi
+#     # TODO: Add your kernel build steps here
+#     make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE mrproper
+#     make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE defconfig
+#     make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE -j4 all dtbs
+# fi
 
 echo "Adding the Image in outdir"
 KERNEL=${OUTDIR}/linux-stable
@@ -88,10 +88,10 @@ ${CROSS_COMPILE}readelf -a busybox | grep "program interpreter"
 ${CROSS_COMPILE}readelf -a busybox | grep "Shared library"
 
 # TODO: Add library dependencies to rootfs
-cp $COMPILER/libc/lib/ld-linux-aarch64.so.1 $ROOTFS/lib/
 cp $COMPILER/libc/lib64/libm.so.6 $ROOTFS/lib64/
 cp $COMPILER/libc/lib64/libc.so.6 $ROOTFS/lib64/
 cp $COMPILER/libc/lib64/libresolv.so.2 $ROOTFS/lib64/
+cp $COMPILER/libc/lib/ld-linux-aarch64.so.1 $ROOTFS/lib/
 
 # TODO: Make device nodes
 echo "Creating dev nodes"
