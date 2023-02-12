@@ -48,6 +48,8 @@ mkdir -p ${OUTDIR}
 # KERNEL=${OUTDIR}/linux-stable
 # cp $KERNEL/arch/arm64/boot/Image ${OUTDIR}
 
+which aarch64-none-linux-gnu-gcc
+
 echo "Creating the staging directory for the root filesystem"
 cd "$OUTDIR"
 if [ -d "${OUTDIR}/rootfs" ]
