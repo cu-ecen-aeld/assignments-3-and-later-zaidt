@@ -29,6 +29,9 @@ if [ ! -d "${OUTDIR}/linux-stable" ]; then
     #Clone only if the repository does not exist.
 	echo "CLONING GIT LINUX STABLE VERSION ${KERNEL_VERSION} IN ${OUTDIR}"
 	git clone ${KERNEL_REPO} --depth 1 --single-branch --branch ${KERNEL_VERSION}
+    cd linux-stable
+    git apply $FINDER_APP_DIR/../dtc-multiple-definition.patch
+    cd -
 fi
 if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     cd linux-stable
@@ -38,7 +41,7 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     # TODO: Add your kernel build steps here
     make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE mrproper
     make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE defconfig
-    make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE -j4 all modules dtbs
+    make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE -j4 all dtbs
 fi
 
 echo "Adding the Image in outdir"
