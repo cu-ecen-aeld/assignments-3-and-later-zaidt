@@ -1,0 +1,21 @@
+#!/bin/sh
+
+NAME=aesdsocket
+
+case "$1" in
+  status)
+        ;;
+  start)
+        echo -n "Starting daemon: "$NAME
+        start-stop-daemon -x /usr/bin/$NAME -b -S
+        echo "."
+        ;;
+  stop)
+        echo -n "Stopping daemon: "$NAME
+        start-stop-daemon -x /usr/bin/$NAME -s SIGTERM -K
+        echo "."
+        ;;
+  *)
+        echo "Usage: "$1" {status|start|stop}"
+        exit 1
+esac
